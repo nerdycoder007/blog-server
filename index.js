@@ -12,6 +12,8 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 
 import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.mjs";
+import { refreshTokenFn } from "./functions/refreshTheToken.js";
+import { signOut } from "./functions/signOut.js";
 dotenv.config();
 
 const app = express();
@@ -26,16 +28,21 @@ const server = new ApolloServer({
   csrfPrevention: false,
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
-await server.start();
+app.use(cookieParser());
 app.use(
-  "/graphql",
   cors({
     origin: "http://localhost:3000",
     credentials: true,
     methods: ["GET", "POST", "OPTIONS"],
-  }),
+  })
+);
+app.post("/refresh_token", refreshTokenFn);
+app.post("/sign_out", signOut);
+await server.start();
+app.use(
+  "/graphql",
+
   json(),
-  cookieParser(),
   graphqlUploadExpress(),
   expressMiddleware(server, {
     context: async ({ req, res }) => ({ req, res }),

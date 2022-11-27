@@ -69,7 +69,6 @@ const authResolver = {
             return {
               accessToken: await generateAccessToken(user),
               id: user.id,
-              email: user.email,
               username: user.username,
             };
           } else {

@@ -1,11 +1,4 @@
-import { gql } from "apollo-server-express";
-const assignments = [
-  { blogId: 1, categoryId: 1 },
-  { blogId: 1, categoryId: 2 },
-  //
-  { blogId: 2, categoryId: 3 },
-  { blogId: 3, categoryId: 3 },
-];
+import { gql } from "graphql-tag";
 
 const typeDefs = gql`
   scalar Upload
@@ -24,7 +17,6 @@ const typeDefs = gql`
   type User {
     accessToken: String
     id: ID!
-    email: String!
     username: String!
   }
   type Blog {
