@@ -1,9 +1,18 @@
 import { gql } from "apollo-server-express";
+const assignments = [
+  { blogId: 1, categoryId: 1 },
+  { blogId: 1, categoryId: 2 },
+  //
+  { blogId: 2, categoryId: 3 },
+  { blogId: 3, categoryId: 3 },
+];
+
 const typeDefs = gql`
   scalar Upload
   type Query {
     sayHello: String!
     getCategories: [Category!]!
+    getBlogs: [Blog!]!
   }
   type Mutation {
     userRegister(userRegisterInput: userRegisterInput!): String!
@@ -19,20 +28,31 @@ const typeDefs = gql`
     username: String!
   }
   type Blog {
+    id: Int!
     blogTitle: String!
     blogImage: String!
     blogContent: String!
     createdAt: String!
     upadtedAt: String!
     blogUserId: String!
-    Categories: [Category!]!
+    Categories: [BlogCategory]
+  }
+  type BlogCategory {
+    blogId: Int!
+    categoryId: Int!
+    category: Category!
   }
   type Category {
     id: ID!
     title: String!
-    Blogs: [Blog]
-    blogsId: [ID]
+    Blogs: [CategoryBlog]
   }
+  type CategoryBlog {
+    blogId: Int!
+    categoryId: Int!
+    blog: Blog!
+  }
+
   input userRegisterInput {
     username: String!
     email: String!

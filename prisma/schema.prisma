@@ -19,21 +19,29 @@ model User {
 }
 
 model Blogs {
-  id             Int        @id @default(autoincrement())
-  blogTitle      String
-  blogContent    String
-  blogImage      String
-  user           User       @relation(fields: [blogUserId], references: [id])
-  blogUserId     Int
-  createdAt      DateTime   @default(now())
-  upadtedAt      DateTime   @default(now())
-  blogCategories Category[]
-  categoriesId   Int[]
+  id          Int                 @id @default(autoincrement())
+  blogTitle   String
+  blogContent String
+  blogImage   String
+  user        User                @relation(fields: [blogUserId], references: [id])
+  blogUserId  Int
+  createdAt   DateTime            @default(now())
+  upadtedAt   DateTime            @default(now())
+  Categories  CategoriesOnBlogs[]
+}
+
+model CategoriesOnBlogs {
+  // id         Int      @id @default(autoincrement())
+  blog       Blogs    @relation(fields: [blogId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+  blogId     Int
+  categoryId Int
+
+  @@id([blogId, categoryId])
 }
 
 model Category {
-  id      Int    @id @default(autoincrement())
-  title   String
-  Blogs   Blogs? @relation(fields: [blogsId], references: [id])
-  blogsId Int?
+  id    Int                 @id @default(autoincrement())
+  title String
+  Blogs CategoriesOnBlogs[]
 }

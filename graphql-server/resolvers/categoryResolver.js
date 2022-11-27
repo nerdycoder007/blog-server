@@ -5,7 +5,9 @@ const categoryResolver = {
   Query: {
     getCategories: async () => {
       try {
-        const categories = await prisma.category.findMany();
+        const categories = await prisma.category.findMany({
+          include: { Blogs: { include: { blog: true } } },
+        });
         return categories;
       } catch (error) {
         console.log(error);

@@ -9,6 +9,7 @@ const resolvers = {
   Query: {
     ...helloResolver.Query,
     ...categoryResolver.Query,
+    ...blogResolver.Query,
   },
   Mutation: {
     ...authResolver.Mutation,
